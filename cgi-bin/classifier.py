@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/home/erik/bin/python3.6
 
 #import packages to be used
 from sklearn.svm import SVC
