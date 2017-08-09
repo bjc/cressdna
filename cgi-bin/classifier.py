@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/home/erik/bin/python3.6m
+=======
+#!/home/erik/bin/python3.6
+>>>>>>> f7d7849fcd6ce02a59db8c5fadc29d1962476493
 
 #import packages to be used
 from sklearn.svm import SVC
@@ -19,7 +23,11 @@ else:
 	name='demo'
 	size=len(alignment[0])
 	
+<<<<<<< HEAD
 html = open("./var/www/html/CRESSresults.html")
+=======
+html = open("./www.html/CRESSresults.html")
+>>>>>>> f7d7849fcd6ce02a59db8c5fadc29d1962476493
 page=html.read()
 
 
@@ -49,4 +57,8 @@ f.close()"""
 print (output)	
 
 	
+<<<<<<< HEAD
 quit()
+=======
+quit()
+>>>>>>> f7d7849fcd6ce02a59db8c5fadc29d1962476493
