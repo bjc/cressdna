@@ -6,6 +6,9 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import StandardScaler
 from sklearn.externals import joblib
 import cgi, cgitb
+import warnings
+
+warnings.simplefilter("ignore", UserWarning)
 
 #----------------------------------------------\
 #  Parse the web-form information to variables  \
