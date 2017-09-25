@@ -74,12 +74,21 @@ predictions=clf.predict(X)
 # 																										 |
 results=""""""
 if "demo" in nameList:
-	results+="""<p>There seems to have been an error.<br>If you are expecting more than one prediction or 
-	do not see the name you entered please try the submission form again, making sure that the input is in FASTA format."""																								
+	results+="""<p>There seems to have been an error.<br>If you are expecting more than one prediction or do not see the name you entered please try the submission form again, making sure that the input is in FASTA format.<br>"""																								
 else:
+	results+="""
+	<table>
+	<tr>
+	<th>Sequence Name</th>
+	<th>Length</th>
+	<th>Prediction</th>
+	</tr>
+	"""
 	for k in len(seqList):
 		results+="""<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>""".format(nameList[k],lenList[k],predictions[k])
-
+		results+="""
+		</table>
+		"""
 
 #----------------------------------------------\
 #  Build output page                            \
@@ -169,16 +178,16 @@ body1="""
 <div id="Home" class="tabcontent">
   <h3>Home</h3>
   <p>Part of the <a href='http://www.nsf.gov/pubs/2010/nsf10513/nsf10513.htm'>National Science Foundation's Assembling the Tree of Life</a>.</p>
-    <img src='nsf1.jpg' alt='Sponsored with a Grant from the National Science Foundation'>
+    <img src='../nsf1.jpg' alt='Sponsored with a Grant from the National Science Foundation'>
 </div>
 
 <div id="Taxonomy" class="tabcontent">
   <h3>Taxonomy</h3>
-  <p>Please enter only one word as the name(no space) and only one Rep sequence</p>
-  <form action="./cgi-bin/classifier.py" method="post"><br>
-	<input type="text" name="seqname" value="seqID"><br>
-	<textarea rows="4" cols="50" name="fasta" input type="submit">
-Enter ONE Rep protein sequence here...</textarea>
+  <form action="classifier.py" method="post"><br>
+  <textarea rows="4" cols="50" name="fasta" input type="submit">
+>Demo
+MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHIEKAKGTDQQNKEYCSKEGHILIECGAPRNQGKRSDLSTAYFDYQQSGPPGMVLLNCCPSCRSSLSEDYYFAILEDCWRTINGGTRRPI</textarea>
+</textarea>
 			<br>
 		<input type="reset">
 		<input type="submit">
@@ -234,17 +243,11 @@ Enter ONE Rep protein sequence here...</textarea>
 <div id="Results" class="tabcontent">
   <h3>Results</h3>
   <p>Results from Taxonomy prediction</p>
-  <table>
-  <tr>
-    <th>Sequence Name</th>
-    <th>Length</th>
-    <th>Prediction</th>
-  </tr>
+
 """  
 
 #Page contents, second part (results fit between body1 and body2)
 body2="""
-</table>
   <p>This classifier will return the best fit of the submitted sequence to the training data.<br>
 Currently included in the training data:<br>
 <li>Circoviridae</li>	
