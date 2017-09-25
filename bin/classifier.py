@@ -13,7 +13,7 @@ import cgi, cgitb
 #																										 |
 cgitb.enable()
 form=cgi.FieldStorage()
-alignment = form.getvalue('fasta')
+alignment = str(form.getvalue('fasta'))
 if alignment.startswith(">"):		#naive check for FASTA format
 	list=alignment.split(">")
 	book={}
@@ -51,8 +51,8 @@ else:
 AAs=['a','c','d','e','f','g','h','i','k','l','m','n','p','q','r','s','t','v','w','y']
 
 #load the classifier and scaler
-clf=joblib.load("./cgi-bin/SVM_linear_aa_clf.pkl")
-StSc=joblib.load("./cgi-bin/UniqRepsGemys_6089_StSCALER.pkl")
+clf=joblib.load("SVM_linear_aa_clf.pkl")
+StSc=joblib.load("UniqRepsGemys_6089_StSCALER.pkl")
 cv=CountVectorizer(analyzer='char',ngram_range=(1,1),vocabulary=AAs)
 
 #initialize text data vectorizer
@@ -69,12 +69,14 @@ predictions=clf.predict(X)
 #  Build HTML table of results                  \
 #                                                \_______________________________________________________	
 # 																										 |
-results=""""""																									
-for k in len(seqList):
-	results+="""<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>""".format(nameList[k],lenList[k],predictions[k])
+results=""""""
 if "demo" in nameList:
 	results+="""<p>There seems to have been an error.<br>If you are expecting more than one prediction or 
-	do not see the name you entered please try the submission form again, making sure that the input is in FASTA format."""
+	do not see the name you entered please try the submission form again, making sure that the input is in FASTA format."""																								
+else:
+	for k in len(seqList):
+		results+="""<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>""".format(nameList[k],lenList[k],predictions[k])
+
 
 #----------------------------------------------\
 #  Build output page                            \
@@ -82,13 +84,12 @@ if "demo" in nameList:
 # 																										 |
 #build output page parts
 #Header and CSS Style bits
-header="""
-<!DOCTYPE html>
+header="""<!DOCTYPE html>
 
 <html>
 <head>
 <style>
-* {box-sizing: border-box}
+*{box-sizing: border-box;}
 body {font-family: "Lato", sans-serif;}
 /* Style the tab */
 div.tab {
@@ -307,7 +308,7 @@ footer="""
 page=header+body1+results+body2+footer
 	
 #send the output as html 	
-output = page.format()
-print (output)	
+#output = page.format()
+print (page)	
 
 quit()
