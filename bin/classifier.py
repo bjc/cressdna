@@ -1,47 +1,52 @@
-#!/home/erik/bin/python3.6
+#!/home/erik/bin/python3
 
 #import packages to be used
+import cgi, cgitb
+import warnings
 from sklearn.svm import SVC
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import StandardScaler
 from sklearn.externals import joblib
-import cgi, cgitb
-import warnings
-
-warnings.simplefilter("ignore", UserWarning)
+import re
+warnings.simplefilter("ignore", UserWarning)#ignore a joblib version warning
 
 #----------------------------------------------\
 #  Parse the web-form information to variables  \
 #                                                \_______________________________________________________
 #																										 |
-cgitb.enable()
+cgitb.enable(display=1, logdir="/var/www/html/bin/")
 form=cgi.FieldStorage()
-alignment = str(form.getvalue('fasta'))
+alignment = form.getvalue('fasta')
 if alignment.startswith(">"):		#naive check for FASTA format
 	list=alignment.split(">")
-	book={}
-	for a in list:
-		tempList=a.splitlines()
-		nameLine=tempList.pop(0)
-		name=nameLine.split(" ")[0]
-		seq="".join(tempList)
-		book[name]=seq
+	if list[0] == "":
+		list.pop(0)#get rid of the leading empty string
+
 	seqList=[]
 	lenList=[]
 	nameList=[]
-	for i in book:
-		nameList.append(i)
-		seqList.append(book[i])
-		lenList.append(str(len(book[i])))
-	
+
+	for a in list:
+		tempList=a.split("\r\n")
+		if tempList[-1]=="":
+			tempList.pop(-1)#get rid of the trailing empty string
+		
+		tempSeq=""
+		nameList.append(tempList[0])
+		for element in tempList[1:]:
+			tempSeq+=element
+		
+		seqList.append(tempSeq)
+		lenList.append(str(len(tempSeq)))
+
 	if len(seqList)==0:				#check for empty sequence list
 		seqList = ["MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHIEKAKGTDQQNKEYCSKEGHILIECGAPRNQGKRSDLSTAYFDYQQSGPPGMVLLNCCPSCRSSLSEDYYFAILEDCWRTINGGTRRPI"]
-		nameList=['demo']
+		nameList=['Demo']
 		lenList=[str(len(alignment[0]))]
-		
+
 else:
 	seqList = ["MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHIEKAKGTDQQNKEYCSKEGHILIECGAPRNQGKRSDLSTAYFDYQQSGPPGMVLLNCCPSCRSSLSEDYYFAILEDCWRTINGGTRRPI"]
-	nameList=['demo']
+	nameList=['Demo']
 	lenList=[str(len(alignment[0]))]
 
 #--------------------------------------------------------------------------------------------------------+	
@@ -54,41 +59,44 @@ else:
 AAs=['a','c','d','e','f','g','h','i','k','l','m','n','p','q','r','s','t','v','w','y']
 
 #load the classifier and scaler
-clf=joblib.load("SVM_linear_aa_clf.pkl")
-StSc=joblib.load("UniqRepsGemys_6089_StSCALER.pkl")
+clf=joblib.load("./SVM_linear_aa_clf.pkl")
+
+StSc=joblib.load("./UniqRepsGemys_6089_StSCALER.pkl")
+
 cv=CountVectorizer(analyzer='char',ngram_range=(1,1),vocabulary=AAs)
 
 #initialize text data vectorizer
 dataVect=cv.transform(seqList)
- 	
+
 #Scale the data to the training set
 X=StSc.transform(dataVect.astype("float64"))
 
 #make predictions for the original dataset
 predictions=clf.predict(X)
-	
+
 
 #----------------------------------------------\
 #  Build HTML table of results                  \
 #                                                \_______________________________________________________	
-# 																										 |
-results=""""""
-if "demo" in nameList:
-	results+="""<p>There seems to have been an error.<br>If you are expecting more than one prediction or do not see the name you entered please try the submission form again, making sure that the input is in FASTA format.<br>"""																								
-else:
-	results+="""
-	<table>
-	<tr>
-	<th>Sequence Name</th>
-	<th>Length</th>
-	<th>Prediction</th>
-	</tr>
-	"""
-	for k in len(seqList):
-		results+="""<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>""".format(nameList[k],lenList[k],predictions[k])
-		results+="""
-		</table>
-		"""
+# 
+#results="<p> Entered Text Content Seq Name is {0} length {1}</p>".format(nameList,predictions)
+results=""
+results+="""
+<table>
+<tr>
+<th>Sequence Name</th>
+<th>Length</th>
+<th>Prediction</th>
+</tr>
+
+"""
+
+
+for k in range(len(nameList)):
+	results+="<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>".format(nameList[k],lenList[k],predictions[k])
+
+results+="</table>"
+
 
 #----------------------------------------------\
 #  Build output page                            \
@@ -96,7 +104,8 @@ else:
 # 																										 |
 #build output page parts
 #Header and CSS Style bits
-header="""<!DOCTYPE html>
+
+header="""Content-type:text/html
 
 <html>
 <head>
@@ -105,66 +114,64 @@ header="""<!DOCTYPE html>
 body {font-family: "Lato", sans-serif;}
 /* Style the tab */
 div.tab {
-    float: left;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-    width: 20%;
-    height: 250px;
+	float: left;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+	width: 20%;
+	height: 250px;
 }
 /* Style the buttons inside the tab */
 div.tab button {
-    display: block;
-    background-color: inherit;
-    color: black;
-    padding: 22px 16px;
-    width: 100%;
-    border: none;
-    outline: none;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 17px;
+	display: block;
+	background-color: inherit;
+	color: black;
+	padding: 22px 16px;
+	width: 100%;
+	border: none;
+	outline: none;
+	text-align: left;
+	cursor: pointer;
+	transition: 0.3s;
+	font-size: 17px;
 }
 /* Change background color of buttons on hover */
 div.tab button:hover {
-    background-color: #ddd;
+	background-color: #ddd;
 }
 /* Create an active/current "tab button" class */
 div.tab button.active {
-    background-color: #1acefc;
+	background-color: #1acefc;
 }
 /* Style the tab content */
 .tabcontent {
-    float: left;
-    padding: 0px 12px;
-    border: 1px solid #ccc;
-    width: 80%;
-    min-height: 250px;
+	float: left;
+	padding: 0px 12px;
+	border: 1px solid #ccc;
+	width: 80%;
+	min-height: 250px;
 }
 table {
-    border-collapse: collapse;
-    width: 80%;
+	border-collapse: collapse;
+	width: 80%;
 }
 
 th, td {
-    text-align: left;
-    padding: 8px;
+	text-align: left;
+	padding: 8px;
 }
 
 tr:nth-child(even){background-color: #f2f2f2}
 
 th {
-    background-color: #ff0000;
-    color: white;
+	background-color: #ff0000;
+	color: white;
 }
-
 </style>
 </head>
-"""
 
+"""
 #Page contents, first part
-body1="""
-<body>
+body1="""<body>
 
 <p>Welcome to CRESSdna.org</p>
 
@@ -173,7 +180,7 @@ body1="""
   <button class="tablinks" onclick="openTab(event, 'Taxonomy')">Taxonomy</button>
   <button class="tablinks" onclick="openTab(event, 'Contact')">Contact</button>
   <button class="tablinks" onclick="openTab(event, 'Results')"id="defaultOpen">Results</button>
- </div>
+</div>
 
 <div id="Home" class="tabcontent">
   <h3>Home</h3>
@@ -236,8 +243,9 @@ MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHI
 </div>
 <div id="Contact" class="tabcontent">
   <h3>Contact</h3>
-  <p>Questions or comments? Send us an email:</p>
-	<p>email At domain Dot something</p>
+  <p>This site is under construction</p>
+	<p>Please be patient while we tidy up a bit!</p>
+
 </div> 
 
 <div id="Results" class="tabcontent">
@@ -247,8 +255,7 @@ MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHI
 """  
 
 #Page contents, second part (results fit between body1 and body2)
-body2="""
-  <p>This classifier will return the best fit of the submitted sequence to the training data.<br>
+body2="""<p>This classifier will return the best fit of the submitted sequence to the training data.<br>
 Currently included in the training data:<br>
 <li>Circoviridae</li>	
 			<ul>
@@ -307,14 +314,11 @@ document.getElementById("defaultOpen").click();
 
 #close the Page
 footer="""
-</html> 
-"""
+</html>"""
 
 #build the output page
 page=header+body1+results+body2+footer
-	
-#send the output as html 	
-#output = page.format()
-print (page)	
 
+#send the output as html 	
+print (page)	
 quit()
