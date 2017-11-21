@@ -59,9 +59,9 @@ else:
 AAs=['a','c','d','e','f','g','h','i','k','l','m','n','p','q','r','s','t','v','w','y']
 
 #load the classifier and scaler
-clf=joblib.load("./SVM_linear_aa_clf.pkl")
+clf=joblib.load("./clf_11_21_2017.pkl")
 
-StSc=joblib.load("./UniqRepsGemys_6089_StSCALER.pkl")
+StSc=joblib.load("./StSc_11_21_2017.pkl")
 
 cv=CountVectorizer(analyzer='char',ngram_range=(1,1),vocabulary=AAs)
 
