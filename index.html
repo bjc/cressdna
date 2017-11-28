@@ -43,6 +43,39 @@ div.tab button.active {
     width: 80%;
     min-height: 250px;
 }
+#carousel{
+  overflow: hidden;
+  width: 500px;
+  height: 333px;
+  border: 1px solid #333;
+}
+
+.panels{
+  margin: 0;
+  padding: 0;  
+}
+
+.panel{
+  float: left;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.panel img{
+}
+
+figure {
+  float: right;
+  width: 30%;
+  text-align: center;
+  font-size: smaller;
+  text-indent: 0;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+img.scaled {
+  width: 100%;
+}
 </style>
 </head>
 <body>
@@ -50,11 +83,12 @@ div.tab button.active {
 <p>Welcome to CRESSdna.org</p>
 
 <div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'Home')" id="defaultOpen">Home</button>
-  <button class="tablinks" onclick="openTab(event, 'Taxonomy')">Taxonomy</button>
+  <button class="tablinks" onclick="openTab(event, 'Home')" id="defaultOpen"class>Home</button>
+  <button class="tablinks" onclick="openTab(event, 'Circoviridae')"><i>Circoviridae</i></button>
+  <button class="tablinks" onclick="openTab(event, 'Classifier')">Classifier</button>
   <button class="tablinks" onclick="openTab(event, 'Contact')">Contact</button>
   <button class="tablinks" onclick="openTab(event, 'Results')">Results</button>
- </div>
+</div>
 
 <div id="Home" class="tabcontent">
   <h3>Home</h3>
@@ -62,8 +96,57 @@ div.tab button.active {
     <img src='nsf1.jpg' alt='Sponsored with a Grant from the National Science Foundation'>
 </div>
 
-<div id="Taxonomy" class="tabcontent">
-  <h3>Taxonomy</h3>
+
+<div id="Circoviridae" class="tabcontent">
+  <h3><i>Circoviridae</i></h3>
+
+<p>
+<br>
+Many animal-infecting CRESS-DNA viruses are classified into the <a href="http://jgv.microbiologyresearch.org/content/journal/jgv/10.1099/jgv.0.000871"><i>Circoviridae</i> family</a>.  There are two genera within the group, the older <i>Circovirus</i> and the more recently codified <i>Cyclovirus</i>, but both are well represented.  At least one disease of economic importance is associated with circovirus infections: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3652492/">post-weaning maturation wasting syndrome</a> in pigs (caused in part by porcine circovirus 2, which is now largely controlled through <a hfref="https://www.ncbi.nlm.nih.gov/pubmed/27769529">vaccination in commercial hog production</a>).  However, several worldwide veterinary diseases are due to circoviruses, including <a href="https://en.wikipedia.org/wiki/Psittacine_beak_and_feather_disease">beak and feather disease</a> and <a href="https://www.ncbi.nlm.nih.gov/pubmed/28242782">fatal acute diarrhea</a> in dogs.
+</p>
+
+<figure>
+	<img class=scaled src="../DogCV.png", alt='missing' />
+	<figcaption><a href="https://wwwnc.cdc.gov/eid/article/19/4/12-1390-f2">Gastrointestinal system of dogs infected with dog circovirus</a> (DogCV) with hemorrhaging in stomach and intestines. CC-BY Li et al. 2013</figcaption>
+</figure>
+
+<figure>
+	<img class=scaled src="../PCV2.jpg", alt='missing' />
+	<figcaption><a href="https://virologyj.biomedcentral.com/articles/10.1186/1743-422X-8-291">Immune electron microscopy image of PCV2</a> (porcine circovirus 2) particles.  CC-BY Guo et al. 2011</figcaption>
+</figure>
+
+<p>
+While some of the environmental isolates assigned to <i>Circoviridae</i> have genomes over 3,000 and 4,000 bases, it also contains some of the smallest genomes of CRESS-DNA viruses – some well-studied circoviruses have genomes ~1700nt long, and circularized putative genomes from metagenomics studies can be even smaller.  Most analyzed sequences have two ORFs: the replication-associated protein (Rep, also referred to as the replication initiator protein) and capsid protein (Cp or Cap), with some isolates having had a third ORF experimentally verified, and some sequences having many hypothetical ORFs called that have not yet been studied in the lab.
+</p>
+
+<p>
+Both cycloviruses and circoviruses have non-enveloped, icosahedral virions of 15-25nm encapsidating their circular, ssDNA genomes, but while members of <i>Circovirus</i> are found infecting or associated with mammals, birds and fish, cycloviruses have been found infecting or associated with mammals, birds and insects.  Sequences assigned to <i>Circovirus</i> have ambisense genomes, with the Rep gene in sense, sequences in Cyclovirus typically are ambisense in the opposite orientation (Rep gene in anti-senese).
+</p>
+
+<p>
+A great <a href="http://jgv.microbiologyresearch.org/content/journal/jgv/10.1099/jgv.0.000871">primer</a> on <i>Circoviridae</i>
+</p>
+
+<p>
+For more information about <i>Circovirus</i>:
+<br>
+<a href="https://talk.ictvonline.org/ictv-reports/ictv_online_report/ssdna-viruses/w/circoviridae/659/genus-circovirus">ICTV report</a> on circovirus<br>
+<a href="https://viralzone.expasy.org/118">ExPASy ViralZone summary of circovirus</a>
+Type species: <i>Porcine circovirus</i> 1 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/12280941">NC_001792.2</a>)
+</p>
+
+<p>
+FOr more information about <i>Cyclovirus</i>:
+<br>
+<a href="https://talk.ictvonline.org/ictv-reports/ictv_online_report/ssdna-viruses/w/circoviridae/660/genus-cyclovirus">ICTV report</a> on cyclovirus<br>
+<a href="https://viralzone.expasy.org/7296">ExPASy ViralZone summary of cyclovirus</a>
+Type species: <i>Human-associated cyclovirus 8</i> (<a href="https://www.ncbi.nlm.nih.gov/nuccore/KF031466">KF031466</a>)
+
+
+</div> 
+
+<div id="Classifier" class="tabcontent">
+  <h3>Classifier</h3>
   <form action="./bin/classifier.py" method="post"><br>
   <textarea rows="4" cols="50" name="fasta" input type="submit">>Demo
 MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHIEKAKGTDQQNKEYCSKEGHILIECGAPRNQGKRSDLSTAYFDYQQSGPPGMVLLNCCPSCRSSLSEDYYFAILEDCWRTINGGTRRPI</textarea>
