@@ -112,59 +112,110 @@ header="""Content-type:text/html
 <style>
 *{box-sizing: border-box;}
 body {font-family: "Lato", sans-serif;}
-/* Style the tab */
-div.tab {
-	float: left;
-	border: 1px solid #ccc;
-	background-color: #f1f1f1;
-	width: 20%;
-	height: 250px;
+/* Menu Styles */
+.third-level-menu
+{
+    position: absolute;
+    top: 0;
+    right: -150px;
+    width: 150px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
 }
-/* Style the buttons inside the tab */
-div.tab button {
-	display: block;
-	background-color: inherit;
-	color: black;
-	padding: 22px 16px;
-	width: 100%;
-	border: none;
-	outline: none;
-	text-align: left;
-	cursor: pointer;
-	transition: 0.3s;
-	font-size: 17px;
+
+.third-level-menu > li
+{
+    height: 30px;
+    background: #ddd;
 }
-/* Change background color of buttons on hover */
-div.tab button:hover {
-	background-color: #ddd;
+.third-level-menu > li:hover { background: #1acefc; }
+
+.second-level-menu
+{
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 150px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
 }
-/* Create an active/current "tab button" class */
-div.tab button.active {
-	background-color: #1acefc;
+
+.second-level-menu > li
+{
+    position: relative;
+    height: 30px;
+    background: #ddd;
 }
-/* Style the tab content */
+.second-level-menu > li:hover { background: #1acefc; }
+
+.top-level-menu
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.top-level-menu > li
+{
+    position: relative;
+    float: left;
+    height: 30px;
+    width: 150px;
+    background: #ddd;
+}
+.top-level-menu > li:hover { background: #1acefc; }
+
+.top-level-menu li:hover > ul
+{
+    /* On hover, display the next level's menu */
+    display: inline;
+}
+
+
+/* Menu Link Styles */
+
+.top-level-menu a /* Apply to all links inside the multi-level menu */
+{
+    font: bold 14px Arial, Helvetica, sans-serif;
+    color: black;
+    text-decoration: none;
+    padding: 0 0 0 10px;
+
+    /* Make the link cover the entire list item-container */
+    display: block;
+    line-height: 30px;
+}
+.top-level-menu a:hover { color: black; }
+
 .tabcontent {
-	float: left;
-	padding: 0px 12px;
-	border: 1px solid #ccc;
-	width: 80%;
-	min-height: 250px;
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 100%;
+    min-height: 250px;
 }
 table {
-	border-collapse: collapse;
-	width: 80%;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
 }
 
-th, td {
-	text-align: left;
-	padding: 8px;
-}
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-th {
-	background-color: #ff0000;
+th{
+	background-color: red;
 	color: white;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }
 </style>
 </head>
@@ -175,12 +226,27 @@ body1="""<body>
 
 <p>Welcome to CRESSdna.org</p>
 
-<div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'Home')" >Home</button>
-  <button class="tablinks" onclick="openTab(event, 'Taxonomy')">Taxonomy</button>
-  <button class="tablinks" onclick="openTab(event, 'Contact')">Contact</button>
-  <button class="tablinks" onclick="openTab(event, 'Results')"id="defaultOpen">Results</button>
-</div>
+<ul class="top-level-menu">
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Home')" >Home</a></li>
+    <li>
+	    <a href="#">Taxonomy</a>
+        <ul class="second-level-menu">
+            <li><a href="#" class="tablinks" onclick="openTab(event, 'Circoviridae')">Circoviridae</a></li>
+			<li><a href="#" class="tablinks" onclick="openTab(event, 'Nanoviridae')">Nanoviridae</a></li>
+			<li><a href="#"><i>more on the way</i></a></li>
+		</ul>
+	</li>
+	<li>
+		<a href="#">Classifier</a>
+		<ul class="second-level-menu">
+				<li><a href="#" class="tablinks" onclick="openTab(event, 'Classifier')">Run the classifier</a></li>
+				<li><a href="#" class="tablinks" onclick="openTab(event, 'Results')" id="defaultOpen">Results</a></li>
+		</ul>
+	</li>	
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Contributers')">Contributers</a></li>	
+ 	<li><a href="#" class="tablinks" onclick="openTab(event, 'Contact')">Contact</a></li>
+	
+</ul>
 
 <div id="Home" class="tabcontent">
   <h3>Home</h3>
@@ -188,7 +254,81 @@ body1="""<body>
     <img src='../nsf1.jpg' alt='Sponsored with a Grant from the National Science Foundation'>
 </div>
 
-<div id="Taxonomy" class="tabcontent">
+<div id="Circoviridae" class="tabcontent">
+  <h3><i>Circoviridae</i></h3>
+<p>
+<br>
+Many animal-infecting CRESS-DNA viruses are classified into the <a href="http://jgv.microbiologyresearch.org/content/journal/jgv/10.1099/jgv.0.000871"><i>Circoviridae</i> family</a>.  There are two genera within the group, the older <i>Circovirus</i> and the more recently codified <i>Cyclovirus</i>, but both are well represented.  At least one disease of economic importance is associated with circovirus infections: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3652492/">post-weaning maturation wasting syndrome</a> in pigs (caused in part by porcine circovirus 2, which is now largely controlled through <a hfref="https://www.ncbi.nlm.nih.gov/pubmed/27769529">vaccination in commercial hog production</a>).  However, several worldwide veterinary diseases are due to circoviruses, including <a href="https://en.wikipedia.org/wiki/Psittacine_beak_and_feather_disease">beak and feather disease</a> and <a href="https://www.ncbi.nlm.nih.gov/pubmed/28242782">fatal acute diarrhea</a> in dogs.
+</p>
+<figure>
+	<img class=scaled src="../DogCV.png", alt='missing' />
+	<figcaption><a href="https://wwwnc.cdc.gov/eid/article/19/4/12-1390-f2">Gastrointestinal system of dogs infected with dog circovirus</a> (DogCV) with hemorrhaging in stomach and intestines. CC-BY Li et al. 2013</figcaption>
+</figure>
+<figure>
+	<img class=scaled src="../PCV2.jpg", alt='missing' />
+	<figcaption><a href="https://virologyj.biomedcentral.com/articles/10.1186/1743-422X-8-291">Immune electron microscopy image of PCV2</a> (porcine circovirus 2) particles.  CC-BY Guo et al. 2011</figcaption>
+</figure>
+<p>
+While some of the environmental isolates assigned to <i>Circoviridae</i> have genomes over 3,000 and 4,000 bases, it also contains some of the smallest genomes of CRESS-DNA viruses - some well-studied circoviruses have genomes  about 1700nt long, and circularized putative genomes from metagenomics studies can be even smaller.  Most analyzed sequences have two ORFs: the replication-associated protein (Rep, also referred to as the replication initiator protein) and capsid protein (Cp or Cap), with some isolates having had a third ORF experimentally verified, and some sequences having many hypothetical ORFs called that have not yet been studied in the lab.
+</p>
+<p>
+Both cycloviruses and circoviruses have non-enveloped, icosahedral virions of 15-25nm encapsidating their circular, ssDNA genomes, but while members of <i>Circovirus</i> are found infecting or associated with mammals, birds and fish, cycloviruses have been found infecting or associated with mammals, birds and insects.  Sequences assigned to <i>Circovirus</i> have ambisense genomes, with the Rep gene in sense, sequences in Cyclovirus typically are ambisense in the opposite orientation (Rep gene in anti-sense).
+</p>
+<p>
+A great <a href="http://jgv.microbiologyresearch.org/content/journal/jgv/10.1099/jgv.0.000871">primer</a> on <i>Circoviridae</i>
+</p>
+<p>
+For more information about <i>Circovirus</i>:
+<br>
+<a href="https://talk.ictvonline.org/ictv-reports/ictv_online_report/ssdna-viruses/w/circoviridae/659/genus-circovirus">ICTV report</a> on circovirus<br>
+<a href="https://viralzone.expasy.org/118">ExPASy ViralZone summary of circovirus</a>
+Type species: <i>Porcine circovirus</i> 1 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/12280941">NC_001792.2</a>)
+</p>
+<p>
+For more information about <i>Cyclovirus</i>:
+<br>
+<a href="https://talk.ictvonline.org/ictv-reports/ictv_online_report/ssdna-viruses/w/circoviridae/660/genus-cyclovirus">ICTV report</a> on cyclovirus<br>
+<a href="https://viralzone.expasy.org/7296">ExPASy ViralZone summary of cyclovirus</a>
+Type species: <i>Human-associated cyclovirus 8</i> (<a href="https://www.ncbi.nlm.nih.gov/nuccore/KF031466">KF031466</a>)
+</p>
+</div>
+
+<div id="Nanoviridae" class="tabcontent">
+<h3><i>Nanoviridae</i></h3>
+<p>
+The plant infecting CRESS-DNA viruses with more than two genomic segments belong in the family <a href="https://talk.ictvonline.org/ictv-reports/ictv_9th_report/ssdna-viruses-2011/w/ssdna_viruses/149/nanoviridae"><i>Nanoviridae</i></a>, which includes the genera <i>Babuvirus</i> and <i>Nanovirus</i>. One of the most economically important species in the family <i>Nanoviridae</i> is Banana bunchy top virus (BBTV), the type species of babuvirus. BBTV causes <a href="http://www.promusa.org/Bunchy+top">banana bunchy top disease</a>, which is common in banana growing areas such as Southeast Asia, the South Pacific, India and Africa. This virus is transmitted by the banana aphid and causes <a href="http://www.musarama.org/en/image/bunchy-top-symptom-81.html">plant crumpling, shrinking and chlorosis</a>, which may develop into necrosis.
+<br>
+<figure>
+	<img class=scaled src="../bbv.jpg", alt='missing', width="512", height="384"/>
+	<figcaption>Banana bunchy top, caused by Banana bunchy top virus (BBTV).  CC-BY Scott Nelson 2014.</figcaption>
+</figure>
+
+<p>
+Viruses in the Family Nanoviridae have <a href="https://talk.ictvonline.org/ictv-reports/ictv_9th_report/ssdna-viruses-2011/w/ssdna_viruses/149/nanoviridae">multipartite genomes</a> consisting of 6 to 8 ~1000 nucleotide segments of circular ssDNA. Five of these DNA components are shared between babuviruses and nanoviruses. <a href="https://talk.ictvonline.org/ictv-reports/ictv_9th_report/ssdna-viruses-2011/w/ssdna_viruses/150/nanoviridae-figures">(DNA-R, -N, -S, -C and -M)</a>. Nanoviruses infect <a href="http://theseedsite.co.uk/monocots2.html">dicots</a>, have 8 genomic DNAs and may include three other DNA components with functions that have yet to be determined (DNA-U1, -U2 and U-4). Babuviruses infect <a href="http://theseedsite.co.uk/monocots2.html">monocots</a>, have 6 genomic DNAs and may include another DNA component with an unknown function (DNA-U4). Each of these components encode a single ORF that is transcribed in one direction, thogh a second putative ORF has been identified on one segment of BBTV (DNA-R). The virions are non-enveloped, sized 17-20nm in diameter and have on CP (coat protein). Additional DNA segments (alphasatellites) are also associated with many viruses in the family and can alter disease symptoms.
+</p>
+
+<p>
+For more information about Nanovirus:
+<br>
+<a href="https://talk.ictvonline.org/ictv-reports/ictv_9th_report/ssdna-viruses-2011/w/ssdna_viruses/149/nanoviridae">ICTV report</a> on nanovirus.
+<br>
+<a href="https://viralzone.expasy.org/565?outline=all_by_species">ExPASy ViralZone summary of nanovirus</a>
+<br>
+Type Species: <i>Subterranean clover stunt virus</i> (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_003818.1">NC_003818.1</a>)                                
+</p>
+
+<p>
+For more information about Babuvirus:
+<br>
+<a href="https://talk.ictvonline.org/ictv-reports/ictv_9th_report/ssdna-viruses-2011/w/ssdna_viruses/149/nanoviridae">ICTV report</a> on babuvirus.
+<br>
+<a href="https://viralzone.expasy.org/564?outline=all_by_species">ExPASy ViralZone summary of babuvirus</a>
+<br>
+Type Species: <i>Banana bunchy top virus</i> (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_003479.1">NC_003479.1</a>)
+</p>
+</div>
+
+<div id="Classifier" class="tabcontent">
   <h3>Taxonomy</h3>
   <form action="classifier.py" method="post"><br>
   <textarea rows="4" cols="50" name="fasta" input type="submit">
@@ -248,6 +388,13 @@ MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHI
 
 </div> 
 
+<div id="Contributers" class="tabcontent">
+  <h3>Contributors</h3>
+  <p>This site is under construction</p>
+	<p>Please be patient while we tidy up a bit!</p>
+
+</div> 
+
 <div id="Results" class="tabcontent">
   <h3>Results</h3>
   <p>Results from Taxonomy prediction</p>
@@ -255,7 +402,7 @@ MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHI
 """  
 
 #Page contents, second part (results fit between body1 and body2)
-body2="""<p>This classifier will return the best fit of the submitted sequence to the training data.<br>
+body2="""<p><br><br>This classifier will return the best fit of the submitted sequence to the training data.<br>
 Currently included in the training data:<br>
 <li>Circoviridae</li>	
 			<ul>
