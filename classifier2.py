@@ -396,7 +396,7 @@ MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHI
 			<li>Mastrevirus</li>
 			<li>Turncurtovirus</li>
 			</ul>
-		<li>Smacovirus</li>
+		<li>Smacoviridae</li>
 			<ul>
 			<li>Huchismacovirus</li>
 			<li>Porprismacovirus</li>
