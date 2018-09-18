@@ -242,9 +242,10 @@ body1="""<body>
 				<li><a href="#" class="tablinks" onclick="openTab(event, 'Classifier')">Run the classifier</a></li>
 				<li><a href="#" class="tablinks" onclick="openTab(event, 'Results')" id="defaultOpen">Results</a></li>
 		</ul>
-	</li>	
+	</li>
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Resources')">Resources</a></li>	
     <li><a href="#" class="tablinks" onclick="openTab(event, 'Contributers')">Contributers</a></li>	
- 	<li><a href="#" class="tablinks" onclick="openTab(event, 'Contact')">Contact</a></li>
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Contact')">Contact</a></li>
 	
 </ul>
 
@@ -380,6 +381,13 @@ MPSKKSGPQPHKRWVFTLNNPSEEEKNKIRELPISLFDYFVCGEEGLEEGRTAHLQGFANFAKKQTFNKVKWYFGARCHI
 			</ul>
 		<li>Smacovirus</li>
 </ul>  		</p>
+
+<div id="Resources" class="tabcontent">
+  <h3>Resources</h3>
+  <p><a href="https://github.com/elavington/CRESS-DNA-virus-classification/blob/master/ProtTest_withCRESS.zip">ProtTest3 with CRESS DNA virus model</a></p>
+	<p>ProtTest3 with a CRESS DNA virus based substitution matrix developed by Lele Zhao.</p>
+</div>
+
 </div>
 <div id="Contact" class="tabcontent">
   <h3>Contact</h3>
